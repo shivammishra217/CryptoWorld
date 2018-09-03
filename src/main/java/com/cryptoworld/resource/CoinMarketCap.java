@@ -76,15 +76,9 @@ public class CoinMarketCap {
 		
 		HashMap<String, Cryptocurrency> data = coinMarketCapFullData.getData();
 		
-		Iterator it = data.entrySet().iterator();
-		
-		while(it.hasNext()) {
+		data.forEach((key,cryptocurrency)-> {
 			
 			HashMap<String, String> hashmap = new HashMap<>();
-			
-			Entry<String, Cryptocurrency> entry = (Entry<String, Cryptocurrency>) it.next();
-			String key = entry.getKey();
-			Cryptocurrency cryptocurrency = entry.getValue();
 			
 			int id = cryptocurrency.getId();
 			int rank = cryptocurrency.getRank();
@@ -98,12 +92,7 @@ public class CoinMarketCap {
 			
 			HashMap<String,CurrencyChangeData> quotes = cryptocurrency.getQuotes();
 			
-			Iterator it1 = quotes.entrySet().iterator();
-			
-			while(it1.hasNext()) {
-				Entry<String,CurrencyChangeData> entry1 = (Entry<String, CurrencyChangeData>) it1.next();
-				String key1 = entry1.getKey();
-				CurrencyChangeData currencyChangeData = entry1.getValue();
+			quotes.forEach((key1,currencyChangeData)-> {
 				
 				long volume_24h = currencyChangeData.getVolume_24h();
 				float price = currencyChangeData.getPrice();
@@ -115,11 +104,11 @@ public class CoinMarketCap {
 				hashmap.put("market_cap", Long.toString(market_cap));
 				hashmap.put("percent_change_24h", Double.toString(percent_change_24h));
 				
-			}
+			});
 			
 			coinMarketCapList.add(hashmap);
-		}	
-		
+		});
+
 		return coinMarketCapList;
 		
 	}
